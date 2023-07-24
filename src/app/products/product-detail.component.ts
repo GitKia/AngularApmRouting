@@ -1,37 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Product } from './product';
-import { ProductService } from './product.service';
-import { MessageService } from '../messages/message.service';
-import { Route } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
+import { Product, ProductResolved } from './product';
 
 @Component({
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css']
 })
-export class ProductDetailComponent implements OnInit{
+export class ProductDetailComponent implements OnInit {
   pageTitle = 'Product Detail';
   product: Product | null = null;
   errorMessage = '';
 
-  constructor(private productService: ProductService,
-    private messageService: MessageService,
-    private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+    private router: Router) { }
 
-    ngOnInit(): void {
-      const id = Number(this.route.snapshot.paramMap.get('id'));
-        this.getProduct(id);
-    }
-
-  getProduct(id: number): void {
-    this.productService.getProduct(id).subscribe({
-      next: product => this.onProductRetrieved(product),
-      error: err => this.errorMessage = err
-    });
+  ngOnInit(): void {
+    const resolvedData: ProductResolved =
+      this.route.snapshot.data['resolvedData'];
+    this.errorMessage = String(resolvedData.error);
+    this.onProductRetrieved(resolvedData.product);
+    console.log('error message', this.errorMessage)
   }
 
-  onProductRetrieved(product: Product): void {
+  onProductRetrieved(product: Product | null): void {
     this.product = product;
 
     if (this.product) {
@@ -39,5 +31,14 @@ export class ProductDetailComponent implements OnInit{
     } else {
       this.pageTitle = 'No product found';
     }
+  }
+
+  doRouting(): void {
+    this.router.navigate(
+      ['/products'],
+      { queryParamsHandling: "preserve", queryParams: { message: '' } }
+    );
+    // [routerLink]="['/products']"
+    // queryParamsHandling="preserve"
   }
 }
