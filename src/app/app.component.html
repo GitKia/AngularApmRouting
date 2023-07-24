@@ -26,8 +26,15 @@
         *ngIf="isLoggedIn">
       <a class="nav-link">Welcome {{ userName }}</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link">Show Messages</a>
+    <li class="nav-item"
+    *ngIf="!messageService.isDisplayed">
+      <a class="nav-link"
+      (click)="displayMessages()">Show messages</a>
+    </li>
+    <li class="nav-item"
+    *ngIf="messageService.isDisplayed">
+      <a class="nav-link"
+      (click)="hideMessages()">Hide messages</a>
     </li>
     <li class="nav-item"
         *ngIf="!isLoggedIn">
