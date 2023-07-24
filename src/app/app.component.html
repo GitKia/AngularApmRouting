@@ -27,14 +27,14 @@
       <a class="nav-link">Welcome {{ userName }}</a>
     </li>
     <li class="nav-item"
-    *ngIf="!messageService.isDisplayed">
+        *ngIf="!isMessageDisplayed">
       <a class="nav-link"
-      (click)="displayMessages()">Show messages</a>
+         (click)="displayMessages()">Show Messages</a>
     </li>
     <li class="nav-item"
-    *ngIf="messageService.isDisplayed">
+        *ngIf="isMessageDisplayed">
       <a class="nav-link"
-      (click)="hideMessages()">Hide messages</a>
+         (click)="hideMessages()">Hide Messages</a>
     </li>
     <li class="nav-item"
         *ngIf="!isLoggedIn">

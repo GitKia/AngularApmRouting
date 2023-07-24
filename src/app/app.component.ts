@@ -26,9 +26,13 @@ export class AppComponent {
     return '';
   }
 
+  get isMessageDisplayed(): boolean {
+    return this.messageService.isDisplayed;
+  }
+
   constructor(private authService: AuthService,
     private router: Router,
-    public messageService: MessageService) {
+    private messageService: MessageService) {
     router.events.subscribe((routerEvent: Event) => {
       this.checkRouterEvent(routerEvent);
     });
@@ -52,6 +56,7 @@ export class AppComponent {
   }
 
   hideMessages(): void {
+    this.router.navigate([{ outlets: { popup: null}}])
     this.messageService.isDisplayed = false;
   }
 
